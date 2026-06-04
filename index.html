@@ -123,6 +123,44 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a1a1a;mi
 .admin-tabs{display:flex;gap:6px;margin-bottom:1.25rem}
 .atab{padding:7px 16px;border:1px solid #d0dbd0;border-radius:20px;background:#fff;font-size:13px;cursor:pointer;color:#555;font-weight:500}
 .atab.on{background:#0f3d2e;color:#fff;border-color:#0f3d2e}
+
+.seccion-titulo{font-size:15px;font-weight:600;color:#0f3d2e;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.recaudacion-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.rec-card{border-radius:10px;padding:1rem;text-align:center}
+.rec-card.verde{background:#d4f0e5}
+.rec-card.rojo{background:#fde8e8}
+.rec-card.azul{background:#dbeafe}
+.rec-card.gris{background:#f0f4f0}
+.rec-card .monto{font-size:22px;font-weight:700;color:#0f3d2e}
+.rec-card.rojo .monto{color:#9b1c1c}
+.rec-card.azul .monto{color:#1e40af}
+.rec-card .rlbl{font-size:12px;color:#555;margin-top:3px}
+.multa-row{display:flex;align-items:center;gap:10px;background:#fff8ed;border:1px solid #f5c97a;border-radius:9px;padding:10px 14px;margin-bottom:8px}
+.multa-row .minfo{flex:1;min-width:0}
+.multa-row .minfo h4{font-size:13px;font-weight:600;color:#0f3d2e}
+.multa-row .minfo p{font-size:12px;color:#7a8c7d;margin-top:1px}
+.cobrar-btn{padding:6px 13px;border:1px solid #e59400;border-radius:7px;background:#fff8ed;font-size:12px;cursor:pointer;color:#7d4e00;font-weight:500;white-space:nowrap}
+.cobrar-btn:hover{background:#fde9a0}
+.cobrar-btn.cobrado{background:#d4f0e5;color:#0a6644;border-color:#a7d7bf;cursor:default}
+.dias-input{width:52px;padding:5px 7px;border:1px solid #d0dbd0;border-radius:6px;font-size:13px;text-align:center}
+.sug-form{background:#f0f4f0;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
+.sug-form h3{font-size:14px;font-weight:600;color:#0f3d2e;margin-bottom:1rem}
+.sug-list{display:flex;flex-direction:column;gap:8px}
+.sug-item{background:#fff;border:1px solid #e0e8e0;border-radius:10px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:12px}
+.sug-votes{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+.sug-votes .vnum{font-size:18px;font-weight:700;color:#1D9E75}
+.sug-votes .vlbl{font-size:10px;color:#aaa}
+.vote-btn{width:32px;height:32px;border:1.5px solid #1D9E75;border-radius:8px;background:none;color:#1D9E75;font-size:16px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center}
+.vote-btn:hover{background:#e8f8f2}
+.vote-btn:disabled{opacity:.35;cursor:default}
+.sug-body{flex:1;min-width:0}
+.sug-body h4{font-size:14px;font-weight:600;color:#0f3d2e}
+.sug-body p{font-size:12px;color:#7a8c7d;margin-top:2px;line-height:1.5}
+.sug-meta{font-size:11px;color:#aaa;margin-top:4px}
+.sug-delete{background:none;border:none;cursor:pointer;color:#ccc;font-size:16px;padding:2px 4px;flex-shrink:0}
+.sug-delete:hover{color:#e24b4a}
+.tab-pub{padding:10px 18px;font-size:14px;border:none;background:none;cursor:pointer;color:#6b7c6e;border-bottom:2px solid transparent;font-weight:500;transition:color .15s}
+.tab-pub.active{color:#1D9E75;border-bottom-color:#1D9E75}
 </style>
 </head>
 <body>
@@ -143,6 +181,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a1a1a;mi
   <div class="tabs-inner">
     <button class="tab active" onclick="showTab('catalogo',this)">📚 Catálogo</button>
     <button class="tab" onclick="showTab('misreservas',this)">📅 Mis reservas</button>
+    <button class="tab" onclick="showTab('sugerencias',this)">💡 Sugerencias</button>
     <button class="tab" onclick="showTab('admin',this)">⚙️ Administrador</button>
   </div>
 </div>
@@ -173,16 +212,67 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a1a1a;mi
     <div class="reservas-list" id="my-res-list"></div>
   </div>
 
-  <div id="tab-admin" class="panel">
+  <div id="tab-sugerencias" class="panel">
+    <div class="sug-form">
+      <h3>💡 ¿Qué juego te gustaría ver en la ludoteca?</h3>
+      <div class="form-group">
+        <label>Nombre del juego</label>
+        <input type="text" id="sug-nombre" placeholder="Ej: Wingspan, Azul, Exploding Kittens…">
+      </div>
+      <div class="form-group">
+        <label>¿Por qué lo recomendás?</label>
+        <textarea id="sug-razon" placeholder="Edad recomendada, cantidad de jugadores, por qué le gustaría a la comunidad…" style="min-height:60px"></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <div class="form-group" style="flex:1;margin-bottom:0">
+          <label>Tu nombre</label>
+          <input type="text" id="sug-quien" placeholder="Opcional">
+        </div>
+        <div class="form-group" style="flex:1;margin-bottom:0">
+          <label>Soy…</label>
+          <select id="sug-tipo">
+            <option value="">Seleccione</option>
+            <option>Familia de estudiante</option>
+            <option>Docente</option>
+            <option>Personal administrativo</option>
+          </select>
+        </div>
+      </div>
+      <button class="pbtn" style="margin-top:1rem" onclick="submitSugerencia()">Enviar sugerencia →</button>
+    </div>
+    <p class="seccion-titulo">🗳️ Sugerencias de la comunidad <span id="sug-count" style="font-size:13px;font-weight:400;color:#aaa"></span></p>
+    <div class="sug-list" id="sug-list-pub"></div>
+  </div>
+
+    <div id="tab-admin" class="panel">
     <div class="admin-tabs">
       <button class="atab on" onclick="showAdminTab('reservas',this)">📋 Reservas</button>
+      <button class="atab" onclick="showAdminTab('recaudacion',this)">💰 Recaudación</button>
+      <button class="atab" onclick="showAdminTab('sugerencias_admin',this)">💡 Sugerencias</button>
       <button class="atab" onclick="showAdminTab('estadisticas',this)">📊 Estadísticas</button>
     </div>
     <div id="admin-reservas">
       <p style="font-size:13px;color:#7a8c7d;margin-bottom:1rem">Solicitudes de préstamo recibidas</p>
       <div class="reservas-list" id="admin-res-list"></div>
     </div>
-    <div id="admin-estadisticas" style="display:none">
+    <div id="admin-recaudacion" style="display:none">
+      <div class="recaudacion-cards">
+        <div class="rec-card verde"><div class="monto" id="rec-total">₡0</div><div class="rlbl">💰 Total recaudado</div></div>
+        <div class="rec-card azul"><div class="monto" id="rec-depositos">₡0</div><div class="rlbl">📅 Depósitos base</div></div>
+        <div class="rec-card rojo"><div class="monto" id="rec-multas">₡0</div><div class="rlbl">⚠️ Multas cobradas</div></div>
+        <div class="rec-card gris"><div class="monto" id="rec-pendiente">₡0</div><div class="rlbl">⏳ Multas pendientes</div></div>
+      </div>
+      <p class="seccion-titulo">⚠️ Devoluciones con atraso</p>
+      <p style="font-size:12px;color:#7a8c7d;margin-bottom:1rem">Indicá los días de atraso para calcular la multa (₡500 por día)</p>
+      <div id="multas-list"></div>
+    </div>
+
+    <div id="admin-sugerencias_admin" style="display:none">
+      <p class="seccion-titulo">💡 Sugerencias recibidas</p>
+      <div class="sug-list" id="sug-list-admin"></div>
+    </div>
+
+        <div id="admin-estadisticas" style="display:none">
       <div class="stat-cards">
         <div class="stat-card"><div class="big" id="st-vistas">0</div><div class="lbl">👁 Vistas totales</div></div>
         <div class="stat-card"><div class="big" id="st-reservas">0</div><div class="lbl">📅 Reservas</div></div>
@@ -217,71 +307,71 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a1a1a;mi
 const CATS = ["Todos","Estrategia","Cooperativo","Cartas","Palabras","Deducción","Habilidad","Creatividad","Familia","Abstracto","Temático"];
 
 const GAMES = [
-  {id:1,name:"Pandemic",emoji:"🧫",players:"2–4",age:"8+",time:"45–75 min",category:"Cooperativo",available:true,price:500,rules:"Juego cooperativo donde todos trabajan juntos para detener cuatro enfermedades que amenazan al mundo. Cada jugador tiene un rol único con habilidades especiales. Ganan todos si descubren las 4 curas antes de que el tablero se desborde.",tips:["Coordinen los roles: la científica cura más rápido, el médico trata sin gastar cartas","Controlen primero la región más explosiva del tablero","Si el mazo de cartas se agota, todos pierden — administren bien las acciones"]},
-  {id:2,name:"Settlers of Catan",emoji:"🏝️",players:"3–4",age:"10+",time:"60–120 min",category:"Estrategia",available:true,price:500,rules:"Los jugadores construyen colonias, ciudades y caminos en la isla de Catán usando recursos producidos por los dados. Se puede comerciar con otros jugadores. Gana quien llegue primero a 10 puntos de victoria.",tips:["Los asentamientos iniciales junto a puertos dan gran ventaja comercial","El ladrón es tu mejor herramienta cuando alguien domina el tablero","Equilibra entre construir caminos y acumular recursos para ciudades"]},
-  {id:3,name:"Ticket to Ride",emoji:"🚂",players:"2–5",age:"8+",time:"45–75 min",category:"Estrategia",available:true,price:500,rules:"Colecciona cartas de vagones de colores para reclamar rutas ferroviarias en el mapa. Completa tarjetas de destino secretas conectando ciudades. Gana quien sume más puntos al final entre rutas, destinos completados y la ruta más larga.",tips:["Guarda tus destinos en secreto el mayor tiempo posible","Acumula cartas del mismo color antes de reclamar rutas largas","Las rutas de 5 y 6 vagones son las más valiosas por punto de espacio"]},
-  {id:4,name:"Carcassonne",emoji:"🏰",players:"2–5",age:"7+",time:"35–45 min",category:"Estrategia",available:true,price:400,rules:"Los jugadores colocan losetas para construir ciudades, caminos y monasterios, luego ubican sus seguidores (meeples) para reclamar regiones. Al completarse una región, se puntúa. Gana quien acumule más puntos al final.",tips:["No desperdicies tus meeples en regiones pequeñas al inicio","Unirse a ciudades de otro jugador puede ser más eficiente que construir desde cero","Los granjeros al final de la partida dan muchos puntos si se controlan bien"]},
-  {id:5,name:"Codenames",emoji:"🕵️",players:"4–8",age:"10+",time:"15–30 min",category:"Palabras",available:true,price:400,rules:"Dos equipos compiten: el espía jefe da pistas de una sola palabra para que su equipo adivine varias cartas a la vez, evitando al asesino. Gana el equipo que descubra todos sus agentes primero.",tips:["Las mejores pistas conectan 3 o más cartas simultáneamente","Antes de dar la pista, verifica que no apunte accidentalmente al asesino","Escucha el razonamiento de tu equipo — revela cómo piensan"]},
-  {id:6,name:"7 Wonders",emoji:"🏛️",players:"2–7",age:"10+",time:"30–45 min",category:"Estrategia",available:true,price:500,rules:"A través de 3 eras, los jugadores construyen su civilización seleccionando cartas de su mano y pasando el resto. Desarrollas comercio, ciencia, cultura y maravillas. Gana quien acumule más puntos de victoria al final de la tercera era.",tips:["No te especialices demasiado en un solo recurso al inicio","Las cartas de ciencia se multiplican exponencialmente si coleccionas símbolos iguales","Presta atención a lo que construyen tus vecinos — te afecta directamente"]},
-  {id:7,name:"Dominion",emoji:"👑",players:"2–4",age:"13+",time:"30–60 min",category:"Cartas",available:true,price:500,rules:"Juego de construcción de mazos donde compras cartas de un mercado central para mejorar tu mano. Cada turno juegas acción, compras y descartas. Gana quien tenga más puntos de victoria cuando se agoten 3 pilas del mercado.",tips:["Los primeros turnos deben enfocarse en ganar más dinero, no en puntos","Compra la Aldea si usas muchas cartas de acción que consumen acciones","Eliminar cartas de cobre de tu mazo lo hace más eficiente"]},
-  {id:8,name:"Photosynthesis",emoji:"🌳",players:"2–4",age:"8+",time:"30–60 min",category:"Abstracto",available:true,price:500,rules:"Los árboles crecen bajo el sol que gira alrededor del bosque. La luz solar genera semillas para plantar nuevos árboles. Cuando un árbol alcanza su madurez y se tala, da puntos según el suelo donde estaba. Gana quien más puntos acumule.",tips:["Los espacios del centro del bosque valen más puntos — compítenlos","Bloquear la luz de árboles rivales es tan importante como hacer crecer los propios","Los árboles grandes dan más semillas pero son más caros de comprar"]},
-  {id:9,name:"Evolution: Climate",emoji:"🦕",players:"2–6",age:"12+",time:"60 min",category:"Estrategia",available:true,price:500,rules:"Los jugadores crean y adaptan especies animales a un ecosistema cambiante, donde el clima puede volverse glacial o abrasador. Las especies compiten por alimento, se defienden de depredadores o atacan a otras. Sobreviven las especies mejor adaptadas.",tips:["Combinar pelaje con cuello largo protege del clima y del hambre","Una especie depredadora fuerte puede dominar la mesa si no se le controla a tiempo","Adapta tus especies según el rumbo del clima, no solo del ecosistema actual"]},
-  {id:10,name:"Flamme Rouge",emoji:"🚴",players:"2–4",age:"8+",time:"30–45 min",category:"Estrategia",available:true,price:400,rules:"Carrera de ciclismo donde manejas dos ciclistas con mazos de cartas. El viento aerodinámico beneficia al pedalear detrás de otros y el agotamiento agrega cartas débiles a tu mazo. Gana quien cruce primero la meta.",tips:["Nunca lideres solo durante mucho tiempo — gastarás tu mazo más rápido","Planea con anticipación en las subidas, los malos mazos se notan más ahí","El ciclista de relevo puede servir como escudo para proteger al sprinter"]},
-  {id:11,name:"The Mind",emoji:"🧠",players:"2–4",age:"8+",time:"15–20 min",category:"Cooperativo",available:true,price:300,rules:"Juego cooperativo y silencioso: sin comunicarse, los jugadores deben colocar sus cartas numeradas en orden ascendente en la mesa. Cada nivel agrega más cartas. Si se colocan fuera de orden, el equipo pierde una vida. Gana el equipo si completa todos los niveles.",tips:["La concentración en los demás es clave — observa el lenguaje corporal","No esperes demasiado antes de jugar una carta baja","Al principio parece imposible, con la práctica se vuelve intuitivo"]},
-  {id:12,name:"Tikal",emoji:"🏜️",players:"2–4",age:"10+",time:"90 min",category:"Estrategia",available:true,price:500,rules:"Exploración arqueológica en la selva guatemalteca. Los jugadores excavan templos, descubren tesoros y controlan territorios usando puntos de acción. Gana quien más puntos sume en las tres votaciones que ocurren durante la partida.",tips:["Controlar templos altos al momento de las votaciones es crucial","No desperdicies puntos de acción llevando exploradores lejos de los templos","Descubrir un tesoro nuevo rápidamente evita que los rivales lo aprovechen"]},
-  {id:13,name:"Sequence",emoji:"🎴",players:"2–12",age:"7+",time:"30–60 min",category:"Familia",available:true,price:300,rules:"Juego de cartas y tablero donde juegas una carta de tu mano para colocar una ficha en el espacio correspondiente del tablero. El objetivo es formar una secuencia de 5 fichas en línea, horizontal, vertical o diagonal.",tips:["Bloquea las secuencias del rival antes de completar las propias","Los comodines (jokers) son posiciones especiales que ningún jugador puede ocupar","En equipos, coordina con tu compañero sin comunicarte verbalmente"]},
-  {id:14,name:"Meadow",emoji:"🌸",players:"1–4",age:"10+",time:"60–90 min",category:"Estrategia",available:true,price:500,rules:"Juego de naturaleza donde los jugadores recolectan cartas de plantas, animales y paisajes para construir su prado personal. Las cartas tienen requisitos de hábitat y dan puntos de victoria variados. Gana quien tenga el prado más valioso.",tips:["Lee bien los requisitos de las cartas antes de comprarlas — pueden bloquearte","Las cartas de camino especial son muy escasas y poderosas","Construir un motor eficiente de recolección desde temprano marca la diferencia"]},
-  {id:15,name:"Viral",emoji:"🦠",players:"2–5",age:"14+",time:"60–90 min",category:"Estrategia",available:true,price:500,rules:"Los jugadores son virus que compiten por infectar y controlar el cuerpo humano. Evolucionan sus cepas, se reproducen en órganos y luchan contra el sistema inmunológico. Gana el virus que más puntos de infección acumule.",tips:["Diversifica tus infecciones entre varios órganos para maximizar puntos","Las mutaciones de movimiento y reproducción son las más importantes al inicio","El sistema inmune puede aliarse temporalmente con otro jugador para frenar al líder"]},
-  {id:16,name:"The Great Dinosaur Rush",emoji:"🦖",players:"2–5",age:"10+",time:"60 min",category:"Temático",available:true,price:500,rules:"Los jugadores son paleontólogos compitiendo en la Era Dorada de la caza de fósiles. Excavan huesos, construyen dinosaurios (incluso robando piezas) y los exhiben en museos. Gana quien exhiba los dinosaurios más impresionantes y únicos.",tips:["Robar huesos es legal pero afecta tu reputación — úsalo con moderación","Los dinosaurios con más habilidades únicas valen más puntos","Construye dinosaurios rápidamente para asegurar los slots de exhibición primero"]},
-  {id:17,name:"Tzolkin: El Calendario Maya",emoji:"⚙️",players:"2–4",age:"13+",time:"90 min",category:"Estrategia",available:true,price:500,rules:"Juego de colocación de trabajadores con engranajes reales que rotan cada turno. Los jugadores ofrendan a los dioses mayas, construyen edificios y avanzan en el árbol del conocimiento. Gana quien más puntos tenga al final del ciclo del calendario.",tips:["El tiempo en los engranajes es todo — planea con dos turnos de anticipación","Las ofrendas a los dioses dan multiplicadores de puntos al final","Los engranajes más profundos dan más recursos pero requieren esperar más turnos"]},
-  {id:18,name:"Fresco",emoji:"🎨",players:"2–4",age:"10+",time:"60–75 min",category:"Estrategia",available:true,price:500,rules:"Los jugadores son pintores del Renacimiento restaurando un fresco en una catedral. Compran pigmentos en el mercado, mezclan colores y pintan secciones del mural. Gana quien más puntos por pintura y satisfacción de los obispos acumule.",tips:["Madrugar en el mercado da pigmentos más baratos pero cansa a tus pintores","Mezclar colores raros da más puntos pero es más costoso","Observa qué colores necesita el fresco en las próximas rondas para anticiparte"]},
-  {id:19,name:"Yangtze",emoji:"⛵",players:"3–5",age:"12+",time:"60–75 min",category:"Estrategia",available:true,price:500,rules:"Los jugadores controlan dinástías que compiten por el control del río Yangtze usando líderes y barcos. Las batallas se resuelven por mayoría de piezas. Gana quien domina más regiones estratégicas al final de la partida.",tips:["Los líderes más débiles a veces sirven como señuelos para proteger a los fuertes","Controla los puntos clave del río antes que el rival se establezca","La diplomacia temporal puede ser clave para derrotar al jugador puntero"]},
-  {id:20,name:"Machi Koro",emoji:"🏙️",players:"2–4",age:"7+",time:"30–45 min",category:"Familia",available:true,price:400,rules:"Construye tu ciudad comprando cartas de establecimientos que producen dinero según los dados. Con monedas construyes monumentos. Gana quien primero complete sus cuatro monumentos.",tips:["Las cartas de color morado roban dinero a los rivales — son agresivas pero efectivas","Diversifica tus activaciones para no depender de un solo número de dado","El centro comercial multiplica las ganancias de tiendas y restaurantes"]},
-  {id:21,name:"Saboteur: The Dark Cave",emoji:"⛏️",players:"2–8",age:"8+",time:"30 min",category:"Deducción",available:true,price:300,rules:"Los mineros cooperan para llegar al tesoro construyendo túneles, pero los saboteadores ocultos intentan impedirlo rompiendo herramientas y bloqueando caminos. Al final de cada ronda se reparten pepitas de oro. Gana quien más oro acumule en 3 rondas.",tips:["Observa quién repara las herramientas rotas — puede ser clave para detectar saboteadores","Un minero que nunca añade túneles útiles es sospechoso","Como saboteador, actúa tarde y solo cuando ya hayas sembrado confusión"]},
-  {id:22,name:"Lost Cities",emoji:"🗺️",players:"2",age:"10+",time:"30 min",category:"Cartas",available:true,price:300,rules:"Juego para dos donde se crean expediciones numéricas en cinco regiones. Colocas cartas en orden ascendente en tus expediciones o las descartas. Cuidado: empezar una expedición sin suficientes cartas te da puntos negativos. Gana quien más sume al final de 3 rondas.",tips:["No comiences una expedición si tienes menos de 4 cartas para ella","Descarta en colores que el rival ya tiene para robarle opciones","El apretón de manos multiplica tus puntos pero también tus pérdidas"]},
-  {id:23,name:"Ubongo",emoji:"🔷",players:"1–4",age:"8+",time:"30 min",category:"Abstracto",available:true,price:300,rules:"Puzzle de figuras geométricas contrarreloj. Los jugadores resuelven puzzles encajando piezas en su tablero lo más rápido posible. Al terminar, reciben gemas según su posición. Gana quien acumule más gemas del mismo color.",tips:["Empieza por las piezas más grandes y trabaja hacia las pequeñas","Practica la rotación mental de piezas — con el tiempo se vuelve automático","No pierdas tiempo mirando a los demás — concéntrate en tu propio puzzle"]},
-  {id:24,name:"Time's Up!",emoji:"⏱️",players:"4–12",age:"12+",time:"30–45 min",category:"Creatividad",available:true,price:300,rules:"Juego de equipos en tres rondas con las mismas tarjetas de personajes famosos: ronda 1 con descripción libre, ronda 2 solo una palabra, ronda 3 solo mímica. Gana el equipo con más puntos al final de las tres rondas.",tips:["Escucha bien las descripciones en ronda 1 — esas pistas reaparecerán","En ronda 2, usa la palabra más característica y memorable del personaje","La ronda 3 es la más hilarante — no te rías tanto que olvides actuar"]},
-  {id:25,name:"Stratego",emoji:"⚔️",players:"2",age:"8+",time:"30–45 min",category:"Deducción",available:true,price:300,rules:"Juego de estrategia para dos donde las piezas tienen rango oculto. Los jugadores mueven sus piezas intentando capturar la bandera enemiga. Cada pieza tiene reglas de combate específicas, con la bomba siendo invencible excepto para el zapador.",tips:["Protege tu bandera con bombas y esconde su posición variando la distribución inicial","Los espías son la única pieza que derrota al mariscal — guárdalos bien","Engaña al rival fingiendo patrones de movimiento falsos en las primeras jugadas"]},
-  {id:26,name:"Catan Junior",emoji:"🏴‍☠️",players:"2–4",age:"5+",time:"30 min",category:"Familia",available:true,price:400,rules:"Versión simplificada de Catan para niños pequeños. Los jugadores son piratas que construyen guaridas y barcos para recoger recursos. Gana quien primero construya todas sus guaridas piratas.",tips:["Ideal para introducir a niños pequeños a los juegos de estrategia","Explica los intercambios de recursos como 'trocar' para hacerlo más divertido","Los adultos deben participar activamente para mantener el ritmo del juego"]},
-  {id:27,name:"¡Rescate! Fire Rescue",emoji:"🚒",players:"2–6",age:"10+",time:"45 min",category:"Cooperativo",available:true,price:500,rules:"Los jugadores son bomberos cooperando para salvar víctimas de un edificio en llamas antes de que se derrumbe. Cada bombero tiene habilidades únicas. Ganan todos si rescatan suficientes víctimas a tiempo.",tips:["Distribuye los bomberos según sus habilidades especiales al inicio","Apagar incendios cercanos a las víctimas es prioritario sobre los alejados","Comunica constantemente tus movimientos — la coordinación es todo"]},
-  {id:28,name:"Fabled Fruit",emoji:"🍎",players:"2–5",age:"8+",time:"25 min",category:"Familia",available:true,price:400,rules:"Juego de recolección de frutas con mecánica de campaña: la partida mejora con cada juego. Los jugadores recolectan frutas para preparar jugos especiales. Gana quien primero complete el número requerido de jugos.",tips:["El juego mejora notablemente a partir de la segunda sesión con el mismo grupo","Especialízate en pocas frutas para completar jugos más rápidamente","Observa qué jugos prepara el rival para bloquear sus recursos clave"]},
-  {id:29,name:"Letter Tycoon",emoji:"✏️",players:"2–5",age:"10+",time:"30–45 min",category:"Palabras",available:true,price:400,rules:"Forma palabras con cartas de letras en tu mano para ganar dinero y acciones. Con las ganancias puedes patentar letras, cobrando a los demás cuando las usen. Gana quien más acciones bursátiles acumule al final.",tips:["Las letras poco comunes como Q, Z o X son valiosas para patentar","Forma palabras largas cuando necesites mucho dinero de una sola vez","Bloquear letras clave que otros necesitan es una estrategia igualmente válida"]},
-  {id:30,name:"Ricochet Robots",emoji:"🤖",players:"1–∞",age:"10+",time:"30–45 min",category:"Abstracto",available:true,price:400,rules:"Puzzle colectivo: los robots se deslizan sin detenerse hasta chocar con una pared u otro robot. Los jugadores buscan simultáneamente la ruta con menos movimientos para llevar al robot al objetivo. Quien encuentre la solución más eficiente gana el turno.",tips:["Busca primero rutas de 1 o 2 movimientos antes de explorar soluciones complejas","Los robots de otros colores son obstáculos que puedes aprovechar para frenar el tuyo","Practica visualizando mentalmente los deslizamientos antes de levantarte a demostrar"]},
-  {id:31,name:"Dominion",emoji:"👑",players:"2–4",age:"13+",time:"30 min",category:"Cartas",available:true,price:400,rules:"Pionero de los juegos de construcción de mazos. Compras cartas de un mercado central para potenciar tu mazo y ganar provincias (puntos). Gana quien tenga más puntos cuando se agoten las pilas de provincias o tres pilas del suministro.",tips:["El dinero temprano supera a casi cualquier otra estrategia al principio","Elimina cobre de tu mazo lo antes posible con cartas de basura o capilla","Lee todas las cartas del mercado al inicio — las combinaciones hacen el juego"]},
-  {id:32,name:"Skyscrapers",emoji:"🏗️",players:"1–4",age:"8+",time:"25–40 min",category:"Abstracto",available:true,price:400,rules:"Puzzle lógico donde se construyen rascacielos en una cuadrícula. Las pistas en los bordes indican cuántos edificios son visibles desde ese ángulo. Cada fila y columna debe tener edificios de altura 1 a N sin repetir.",tips:["Empieza resolviendo las pistas más restrictivas, como las que dicen '1' o el máximo","Los esquemas de una sola vista visible son los más fáciles de deducir al inicio","Elimina por descarte en columnas y filas que ya tengan varios números resueltos"]},
-  {id:33,name:"Fauna",emoji:"🦒",players:"2–6",age:"10+",time:"60–75 min",category:"Familia",available:true,price:400,rules:"Quiz de naturaleza donde se adivina el peso, longitud, distribución geográfica y cola de diferentes animales. No es necesario acertar exactamente — estar cerca también da puntos. Gana quien acumule más puntos al revisar todas las cartas.",tips:["Apostar en zonas adyacentes al lugar real da puntos aunque no sea exacto","Comparte zonas con otros jugadores para no arriesgar toda tu apuesta en un solo espacio","Los animales más comunes y conocidos suelen tener datos más intuitivos"]},
-  {id:34,name:"Terra",emoji:"🌍",players:"2–6",age:"10+",time:"45–75 min",category:"Familia",available:true,price:400,rules:"Quiz de geografía y datos del mundo donde se adivina la posición en mapas y valores numéricos. Los jugadores colocan cubos sobre el tablero para acercarse a las respuestas correctas. Puntúan los más cercanos.",tips:["La estrategia de 'zona segura' funciona bien — apuesta cerca de tu rival confiado","El tamaño de los países y su ubicación relativa son las claves geográficas más útiles","Concentra tus cubos en 1-2 preguntas por ronda en lugar de dispersarte en todas"]},
-  {id:35,name:"Photosynthesis",emoji:"🌿",players:"2–4",age:"8+",time:"30–60 min",category:"Abstracto",available:true,price:500,rules:"Los árboles crecen bajo el sol giratorio del bosque. La luz genera semillas para plantar. Cuando un árbol maduro se tala, da puntos según el suelo. Gana quien más puntos acumule.",tips:["Los espacios centrales del bosque valen más puntos — lucha por ellos","Bloquear la luz de los rivales es tan importante como hacer crecer los propios","Los árboles grandes dan más semillas pero son caros de desarrollar"]},
-  {id:36,name:"Tzaar",emoji:"⬡",players:"2",age:"13+",time:"30 min",category:"Abstracto",available:true,price:400,rules:"Juego abstracto de dos jugadores del sistema GIPF. Las piezas son de tres tipos: TZAAR, TZARRA y TOTT. Puedes capturar piezas enemigas o apilar las propias para hacerlas más fuertes. Pierde quien no pueda capturar o pierda todos los de un tipo.",tips:["Las torres altas son difíciles de capturar pero inmovilizan una parte de tu ejército","Perder todos los TZAAR (la pieza más valiosa) es derrota inmediata — protégelos","El equilibrio entre atacar y fortalecer tu posición es la clave estratégica"]},
-  {id:37,name:"Yinsh",emoji:"⬤",players:"2",age:"9+",time:"30–60 min",category:"Abstracto",available:true,price:400,rules:"Juego abstracto para dos del sistema GIPF. Los aros se mueven por el tablero y voltean las fichas que cruzan en su camino. Cuando formas una fila de 5 fichas de tu color, retiras un aro. Gana quien primero retire 3 aros.",tips:["Controla el centro del tablero desde el inicio — da más opciones de movimiento","Forzar a tu rival a voltear sus propias fichas es tan valioso como mover las tuyas","Los finales de partida son muy tácticos — planifica con al menos 2 movimientos de anticipación"]},
-  {id:38,name:"Genial",emoji:"🎯",players:"2–4",age:"8+",time:"30 min",category:"Abstracto",available:true,price:300,rules:"Juego abstracto de colocación de dominós hexagonales de colores. Al colocar una pieza se puntúa por todas las fichas del mismo color conectadas en línea. Gana quien tenga el puntaje más alto en su color más bajo.",tips:["El color más débil determina tu puntuación — nunca abandones uno completamente","Colocar en el centro da más posibilidades de puntuar varios colores a la vez","Bloquea las extensiones de línea del rival cuando amenace puntuar mucho de un color"]},
-  {id:39,name:"Space Invaders (juego de mesa)",emoji:"👾",players:"2–4",age:"8+",time:"30 min",category:"Familia",available:true,price:300,rules:"Versión de mesa del clásico arcade. Los jugadores defienden la Tierra de oleadas de invasores alienígenas cooperando o compitiendo por puntos. Incluye mecánicas del videojuego original adaptadas al tablero.",tips:["La coordinación es clave en modo cooperativo — no desperdicies disparos en el mismo invasor","Los escudos se destruyen gradualmente — planifica cuándo dejar de depender de ellos","El OVNI especial da puntos extra si lo eliminas en el momento correcto"]},
-  {id:40,name:"BibleOpoly",emoji:"✝️",players:"2–6",age:"8+",time:"60–90 min",category:"Familia",available:true,price:300,rules:"Versión bíblica del Monopoly donde las propiedades son lugares del Antiguo y Nuevo Testamento. Los jugadores construyen templos en lugar de hoteles y responden preguntas bíblicas. Gana quien más riqueza acumule.",tips:["Ideal para familias con contexto cristiano que quieren combinar fe y diversión","Las tarjetas de preguntas bíblicas pueden jugarse como reto adicional","Adáptalo a jugadores más jóvenes simplificando las reglas de transacción"]},
-  {id:41,name:"Tipsy",emoji:"🥴",players:"2+",age:"8+",time:"20 min",category:"Habilidad",available:true,price:300,rules:"Juego de equilibrio donde los jugadores apilan objetos sobre una base inestable. Cada turno se añade una pieza siguiendo las reglas. Quien derrumbe la pila pierde.",tips:["Coloca las piezas más pesadas cerca del centro de gravedad","Movimientos lentos y controlados son mejores que los rápidos","Observa el ángulo de inclinación actual antes de decidir dónde colocar tu pieza"]},
-  {id:42,name:"Pirate Pirate",emoji:"🏴‍☠️",players:"2–4",age:"7+",time:"20–30 min",category:"Familia",available:true,price:300,rules:"Juego de piratas donde los jugadores recolectan tesoros navegando por los mares. Con cartas de acción puedes robar tesoros a otros o proteger los propios. Gana quien más tesoros acumule al final.",tips:["Las cartas de protección son tan valiosas como las de ataque","Guarda tus mejores ataques para cuando el rival tenga muchos tesoros acumulados","Ideal para niños por sus reglas simples y tiempo de juego corto"]},
-  {id:43,name:"Yogarrr!",emoji:"🧘",players:"2–4",age:"6+",time:"20 min",category:"Habilidad",available:true,price:300,rules:"Juego de equilibrio con temática pirata. Los jugadores apilan monedas de oro sobre el tablero inclinado sin derribarlas. Gana quien coloque más monedas correctamente.",tips:["La posición inicial de las monedas determina el equilibrio — empieza desde el centro","Observa cómo reacciona el tablero al peso antes de colocar piezas difíciles","Respira antes de colocar — los movimientos impulsivos derrumban la pila"]},
-  {id:44,name:"Lift It! Deluxe",emoji:"🎪",players:"2–4",age:"7+",time:"20 min",category:"Habilidad",available:true,price:300,rules:"Los jugadores se ponen un gancho en la cabeza y deben levantar y apilar piezas sin usar las manos. Completa los desafíos de la tarjeta antes que tus rivales. Gana quien más desafíos complete.",tips:["Practica movimientos de cuello lentos y controlados antes de cronometrar","Los desafíos de apilamiento vertical son más difíciles que los horizontales","Ríete de los errores — este juego es tan divertido como frustrante al inicio"]},
-  {id:45,name:"#ArtBox",emoji:"🎨",players:"2–4",age:"10+",time:"30–45 min",category:"Creatividad",available:true,price:300,rules:"Juego de creatividad y adivinanzas visuales donde los jugadores crean composiciones con tarjetas de arte y los demás intentan adivinar el concepto o título que el artista tenía en mente.",tips:["Las interpretaciones más abstractas a veces son las más fáciles de adivinar para tu grupo","Conocer el estilo de juego de tus compañeros te da ventaja en las adivinanzas","No busques la respuesta 'correcta' — la más cercana al pensamiento del artista gana"]},
-  {id:46,name:"Granjeros",emoji:"🌾",players:"2–5",age:"8+",time:"45–60 min",category:"Familia",available:true,price:400,rules:"Juego de gestión de granja donde los jugadores cultivan cosechas, crían animales y venden en el mercado. Los recursos se administran para maximizar las ganancias a lo largo de las temporadas. Gana quien más monedas acumule.",tips:["Diversifica tus cultivos para no depender de un solo mercado","Las temporadas de lluvia afectan distintos cultivos — planifica la siembra con anticipación","Los animales dan recursos pasivos pero cuestan mantenerlos — calcula el retorno"]},
-  {id:47,name:"Dr. Eureka",emoji:"🔬",players:"2–4",age:"8+",time:"15–20 min",category:"Habilidad",available:true,price:300,rules:"Los jugadores son científicos que deben reordenar bolitas de colores en tubos de ensayo para reproducir la fórmula de la tarjeta, sin tocar las bolitas con las manos. El primero en reproducirla correctamente gana la ronda.",tips:["Planea toda la secuencia de movimientos antes de empezar a mover","Las bolitas en el fondo del tubo determinan en qué tubo debes empezar","No dejes bolitas del mismo color juntas si las necesitas separadas al final"]},
-  {id:48,name:"Chomp!",emoji:"🦈",players:"2–5",age:"8+",time:"15–20 min",category:"Familia",available:true,price:300,rules:"Juego de reacción rápida donde los jugadores deben atrapar cartas de animales acuáticos según las reglas de la cadena alimentaria. El tiburón come todo, pero el tiburón a su vez puede ser 'chompeado'. Gana quien más cartas recolecte.",tips:["La velocidad de reacción mejora con la práctica — el primer partido siempre es más lento","Mantén la mano cerca de las cartas pero sin tocarlas antes de tiempo","Recuerda la cadena: el plancton es el rey en esta versión del juego"]},
-  {id:49,name:"Cir-Kis",emoji:"🔵",players:"2",age:"8+",time:"20 min",category:"Abstracto",available:true,price:300,rules:"Juego abstracto para dos jugadores donde se colocan piezas circulares y en forma de cuña en un tablero. El objetivo es controlar el mayor número de regiones al rodear o conectar territorios.",tips:["El control del centro del tablero da ventaja decisiva en etapas finales","Las piezas circulares son más versátiles — úsalas con flexibilidad estratégica","Anticipa los movimientos del rival con al menos dos jugadas de anticipación"]},
-  {id:50,name:"Konario",emoji:"🃏",players:"2–4",age:"8+",time:"30 min",category:"Cartas",available:true,price:300,rules:"Juego de cartas costarricense donde los jugadores usan cartas de personajes y habilidades para acumular puntos. Ideal para aprender sobre la cultura y fauna local en un formato de juego dinámico.",tips:["Guarda las cartas de habilidad especial para los momentos decisivos","Los personajes de mayor poder suelen tener costos de juego más altos","Lee todas las cartas al inicio para planear tu estrategia desde el primer turno"]},
-  {id:51,name:"GalactiQuest",emoji:"🚀",players:"2–6",age:"10+",time:"30–45 min",category:"Temático",available:true,price:400,rules:"Juego de exploración espacial donde los jugadores viajan por la galaxia recolectando recursos de planetas y completando misiones. Cada nave tiene habilidades únicas. Gana quien complete primero el número requerido de misiones.",tips:["Las misiones de alto riesgo dan más puntos pero requieren más recursos","Bloquear los planetas que tu rival necesita puede ser tan efectivo como avanzar","Actualiza tu nave antes de embarcarte en misiones de largo alcance"]},
-  {id:52,name:"Bombers",emoji:"💣",players:"2–4",age:"8+",time:"30–45 min",category:"Estrategia",available:true,price:300,rules:"Juego de estrategia urbana donde los jugadores planifican ataques y defensas en un mapa de ciudad. Las bombas tienen alcance diferente según su tipo. Gana quien elimine más objetivos del rival sin perder los propios.",tips:["El conocimiento del mapa es tu mayor ventaja — estúdialo antes de colocar tus piezas","Las bombas de área son poderosas pero pueden dañar tus propios objetivos","Usa el terreno como escudo estratégico para proteger tus posiciones clave"]},
-  {id:53,name:"Tic Stac Toe",emoji:"❌",players:"2",age:"5+",time:"15 min",category:"Abstracto",available:true,price:200,rules:"Versión 3D del clásico tres en raya. Los jugadores apilan piezas en una cuadrícula vertical para formar una línea de tres. La dimensión extra añade profundidad estratégica al juego original.",tips:["El centro de la cuadrícula sigue siendo el punto de control más importante","Las líneas diagonales en 3D son más difíciles de ver — son las más sorpresivas","Bloquear al rival debe ser siempre tu primera prioridad en cada turno"]},
-  {id:54,name:"NFL ShowDown",emoji:"🏈",players:"2–4",age:"10+",time:"30–45 min",category:"Temático",available:true,price:300,rules:"Juego de fútbol americano donde los jugadores dirigen sus equipos con cartas de jugadas. Combinando ataque y defensa, intentan anotar touchdowns. Gana el equipo con más puntos al final del partido.",tips:["El bloqueo de la defensa es tan importante como el ataque — no lo descuides","Guarda tus mejores jugadas para la última posesión si vas perdiendo","Conocer las fortalezas de cada posición de tu equipo maximiza tus jugadas"]},
-  {id:55,name:"Tetris (juego de mesa)",emoji:"🟦",players:"1–4",age:"8+",time:"20–30 min",category:"Abstracto",available:true,price:300,rules:"Versión de tablero del icónico videojuego. Los jugadores colocan piezas tetromino en el tablero intentando completar líneas. Las líneas completas se eliminan y dan puntos. Gana quien más líneas complete.",tips:["Piensa en forma de piezas futuras, no solo en la que estás colocando ahora","Deja un espacio para la pieza larga (I) para completar cuatro líneas a la vez","Mantener el tablero bajo es más importante que puntuar muchas líneas pequeñas"]},
-  {id:56,name:"Amazonas",emoji:"🌊",players:"2–4",age:"10+",time:"30–45 min",category:"Estrategia",available:true,price:400,rules:"Juego de territorio donde las reinas amazonas se mueven como en el ajedrez y disparan flechas que bloquean casillas. El objetivo es dejar al rival sin movimientos posibles. Gana el último jugador con reinas que puedan moverse.",tips:["Divide el tablero temprano para aislar las reinas rivales en zonas pequeñas","Las flechas propias pueden ser obstáculos para tus rivales — úsalas estratégicamente","Las reinas cerca del centro tienen más opciones de movimiento y disparo"]},
-  {id:57,name:"Machi Koro: Bright Lights",emoji:"🌆",players:"2–5",age:"10+",time:"40–60 min",category:"Familia",available:true,price:400,rules:"Expansión de Machi Koro ambientada en una gran ciudad. Los jugadores construyen establecimientos comerciales que se activan según los dados para ganar monedas. Primero en construir sus monumentos gana.",tips:["Diversifica tus activaciones entre números bajos y altos de dado","Las cartas de activación en turno de cualquier jugador son las más eficientes","Adapta tu estrategia según las cartas disponibles en cada partida — cambian siempre"]},
-  {id:58,name:"Deus",emoji:"⚡",players:"2–4",age:"14+",time:"60–90 min",category:"Estrategia",available:true,price:500,rules:"Juego de civilizaciones donde los jugadores construyen colonias y templos en un mapa modular. Las cartas se juegan para construir o sacrificar en los templos de los dioses a cambio de poderes. Gana quien más puntos de victoria tenga.",tips:["Los templos son más poderosos cuanto más cartas del mismo tipo hayas sacrificado","Controla los recursos naturales del mapa desde el inicio","Las cartas militares son clave para bloquear o eliminar rivales avanzados"]},
-  {id:59,name:"Feudality",emoji:"🏰",players:"2–4",age:"12+",time:"90 min",category:"Estrategia",available:true,price:500,rules:"Juego de construcción de reino medieval donde los jugadores administran tierras, campesinos y señores feudales. Se construyen edificios que generan recursos y ventajas. Gana quien más puntos de gloria y riqueza acumule al final.",tips:["Los edificios de producción de recursos son la base de cualquier estrategia","Los señores con mejores atributos deben asignarse a las tareas más críticas","Planifica los impuestos con cuidado — los campesinos insatisfechos producen menos"]},
-  {id:60,name:"Wonders (7 Wonders variant)",emoji:"🗿",players:"2–7",age:"10+",time:"30 min",category:"Estrategia",available:true,price:400,rules:"Los jugadores construyen civilizaciones antiguas eligiendo cartas de estructuras, ciencia y maravillas del mundo. Con recursos construyes estructuras que dan puntos o poderes. Gana quien más puntos de victoria sume.",tips:["La ciencia se multiplica exponencialmente cuando coleccionas símbolos iguales","No ignores el poder militar — las derrotas quitan puntos al final","Lee las maravillas de todos los jugadores al inicio — influyen en tu estrategia"]},
-  {id:61,name:"Mancala",emoji:"🥚",players:"2",age:"5+",time:"15–20 min",category:"Abstracto",available:true,price:200,rules:"Juego de siembra de semillas donde los jugadores distribuyen piedras por los hoyos del tablero. Al vaciar un hoyo, si la última piedra cae en tu almacén, juegas de nuevo. Gana quien más semillas acumule en su almacén.",tips:["Contar los movimientos para caer en el almacén y jugar de nuevo es la clave","Los hoyos del extremo de tu lado son los más valiosos para acumular","Vaciar los hoyos del rival puede ser tan efectivo como llenar el tuyo"]},
-  {id:62,name:"Tribond",emoji:"🧩",players:"2–6",age:"12+",time:"30 min",category:"Palabras",available:true,price:300,rules:"Juego de trivia donde tres pistas tienen algo en común. Los jugadores adivinas el nexo entre las tres cosas. Gana quien más respuestas correctas dé primero.",tips:["Piensa en categorías amplias antes que en respuestas específicas","Las conexiones más inesperadas suelen ser las más memorables del juego","Si no sabes la respuesta, escucha las pistas de tus rivales — a veces ayudan"]},
-  {id:63,name:"Cronología Bíblica",emoji:"📖",players:"2–8",age:"8+",time:"20–30 min",category:"Familia",available:true,price:300,rules:"Juego de trivia cronológica con eventos bíblicos. Los jugadores colocan eventos en su posición correcta dentro de una línea del tiempo creciente. Sin ver la fecha, cada carta se ubica antes o después de las ya colocadas.",tips:["Los eventos del Antiguo Testamento van primero — es un buen ancla inicial","Conocer las grandes narrativas bíblicas ayuda más que memorizar fechas exactas","Ideal para grupos con formación cristiana — añade conversación natural sobre los textos"]},
-  {id:64,name:"UNO Teams",emoji:"🃏",players:"4–8",age:"7+",time:"30 min",category:"Cartas",available:false,price:200,rules:"Versión por equipos del clásico UNO. Los compañeros se sientan uno frente al otro y cooperan para que uno de los dos se quede sin cartas. Los comodines especiales del equipo añaden nuevas tácticas.",tips:["Coordina con tu compañero qué colores dejar activos para darle ventaja","Guarda el +4 para cuando el rival esté a punto de ganar","Grita UNO por tu compañero también — las reglas de equipo lo permiten"]},
-  {id:65,name:"Chess / Ajedrez",emoji:"♟️",players:"2",age:"6+",time:"30–90 min",category:"Abstracto",available:true,price:200,rules:"El clásico juego de estrategia milenario. Dos ejércitos de 16 piezas cada uno compiten por dar jaque mate al rey rival. Cada pieza tiene movimientos únicos. Gana quien atrape al rey del oponente sin que pueda escapar.",tips:["Controla el centro del tablero desde las primeras jugadas","No muevas las mismas piezas dos veces en la apertura sin una razón táctica","Enrocar temprano protege al rey y conecta las torres"]}
+  {id:1,name:"Pandemic",emoji:"🧫",players:"2–4",age:"8+",time:"45–75 min",category:"Cooperativo",available:true,price:1000,rules:"Juego cooperativo donde todos trabajan juntos para detener cuatro enfermedades que amenazan al mundo. Cada jugador tiene un rol único con habilidades especiales. Ganan todos si descubren las 4 curas antes de que el tablero se desborde.",tips:["Coordinen los roles: la científica cura más rápido, el médico trata sin gastar cartas","Controlen primero la región más explosiva del tablero","Si el mazo de cartas se agota, todos pierden — administren bien las acciones"]},
+  {id:2,name:"Settlers of Catan",emoji:"🏝️",players:"3–4",age:"10+",time:"60–120 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores construyen colonias, ciudades y caminos en la isla de Catán usando recursos producidos por los dados. Se puede comerciar con otros jugadores. Gana quien llegue primero a 10 puntos de victoria.",tips:["Los asentamientos iniciales junto a puertos dan gran ventaja comercial","El ladrón es tu mejor herramienta cuando alguien domina el tablero","Equilibra entre construir caminos y acumular recursos para ciudades"]},
+  {id:3,name:"Ticket to Ride",emoji:"🚂",players:"2–5",age:"8+",time:"45–75 min",category:"Estrategia",available:true,price:1000,rules:"Colecciona cartas de vagones de colores para reclamar rutas ferroviarias en el mapa. Completa tarjetas de destino secretas conectando ciudades. Gana quien sume más puntos al final entre rutas, destinos completados y la ruta más larga.",tips:["Guarda tus destinos en secreto el mayor tiempo posible","Acumula cartas del mismo color antes de reclamar rutas largas","Las rutas de 5 y 6 vagones son las más valiosas por punto de espacio"]},
+  {id:4,name:"Carcassonne",emoji:"🏰",players:"2–5",age:"7+",time:"35–45 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores colocan losetas para construir ciudades, caminos y monasterios, luego ubican sus seguidores (meeples) para reclamar regiones. Al completarse una región, se puntúa. Gana quien acumule más puntos al final.",tips:["No desperdicies tus meeples en regiones pequeñas al inicio","Unirse a ciudades de otro jugador puede ser más eficiente que construir desde cero","Los granjeros al final de la partida dan muchos puntos si se controlan bien"]},
+  {id:5,name:"Codenames",emoji:"🕵️",players:"4–8",age:"10+",time:"15–30 min",category:"Palabras",available:true,price:1000,rules:"Dos equipos compiten: el espía jefe da pistas de una sola palabra para que su equipo adivine varias cartas a la vez, evitando al asesino. Gana el equipo que descubra todos sus agentes primero.",tips:["Las mejores pistas conectan 3 o más cartas simultáneamente","Antes de dar la pista, verifica que no apunte accidentalmente al asesino","Escucha el razonamiento de tu equipo — revela cómo piensan"]},
+  {id:6,name:"7 Wonders",emoji:"🏛️",players:"2–7",age:"10+",time:"30–45 min",category:"Estrategia",available:true,price:1000,rules:"A través de 3 eras, los jugadores construyen su civilización seleccionando cartas de su mano y pasando el resto. Desarrollas comercio, ciencia, cultura y maravillas. Gana quien acumule más puntos de victoria al final de la tercera era.",tips:["No te especialices demasiado en un solo recurso al inicio","Las cartas de ciencia se multiplican exponencialmente si coleccionas símbolos iguales","Presta atención a lo que construyen tus vecinos — te afecta directamente"]},
+  {id:7,name:"Dominion",emoji:"👑",players:"2–4",age:"13+",time:"30–60 min",category:"Cartas",available:true,price:1000,rules:"Juego de construcción de mazos donde compras cartas de un mercado central para mejorar tu mano. Cada turno juegas acción, compras y descartas. Gana quien tenga más puntos de victoria cuando se agoten 3 pilas del mercado.",tips:["Los primeros turnos deben enfocarse en ganar más dinero, no en puntos","Compra la Aldea si usas muchas cartas de acción que consumen acciones","Eliminar cartas de cobre de tu mazo lo hace más eficiente"]},
+  {id:8,name:"Photosynthesis",emoji:"🌳",players:"2–4",age:"8+",time:"30–60 min",category:"Abstracto",available:true,price:1000,rules:"Los árboles crecen bajo el sol que gira alrededor del bosque. La luz solar genera semillas para plantar nuevos árboles. Cuando un árbol alcanza su madurez y se tala, da puntos según el suelo donde estaba. Gana quien más puntos acumule.",tips:["Los espacios del centro del bosque valen más puntos — compítenlos","Bloquear la luz de árboles rivales es tan importante como hacer crecer los propios","Los árboles grandes dan más semillas pero son más caros de comprar"]},
+  {id:9,name:"Evolution: Climate",emoji:"🦕",players:"2–6",age:"12+",time:"60 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores crean y adaptan especies animales a un ecosistema cambiante, donde el clima puede volverse glacial o abrasador. Las especies compiten por alimento, se defienden de depredadores o atacan a otras. Sobreviven las especies mejor adaptadas.",tips:["Combinar pelaje con cuello largo protege del clima y del hambre","Una especie depredadora fuerte puede dominar la mesa si no se le controla a tiempo","Adapta tus especies según el rumbo del clima, no solo del ecosistema actual"]},
+  {id:10,name:"Flamme Rouge",emoji:"🚴",players:"2–4",age:"8+",time:"30–45 min",category:"Estrategia",available:true,price:1000,rules:"Carrera de ciclismo donde manejas dos ciclistas con mazos de cartas. El viento aerodinámico beneficia al pedalear detrás de otros y el agotamiento agrega cartas débiles a tu mazo. Gana quien cruce primero la meta.",tips:["Nunca lideres solo durante mucho tiempo — gastarás tu mazo más rápido","Planea con anticipación en las subidas, los malos mazos se notan más ahí","El ciclista de relevo puede servir como escudo para proteger al sprinter"]},
+  {id:11,name:"The Mind",emoji:"🧠",players:"2–4",age:"8+",time:"15–20 min",category:"Cooperativo",available:true,price:1000,rules:"Juego cooperativo y silencioso: sin comunicarse, los jugadores deben colocar sus cartas numeradas en orden ascendente en la mesa. Cada nivel agrega más cartas. Si se colocan fuera de orden, el equipo pierde una vida. Gana el equipo si completa todos los niveles.",tips:["La concentración en los demás es clave — observa el lenguaje corporal","No esperes demasiado antes de jugar una carta baja","Al principio parece imposible, con la práctica se vuelve intuitivo"]},
+  {id:12,name:"Tikal",emoji:"🏜️",players:"2–4",age:"10+",time:"90 min",category:"Estrategia",available:true,price:1000,rules:"Exploración arqueológica en la selva guatemalteca. Los jugadores excavan templos, descubren tesoros y controlan territorios usando puntos de acción. Gana quien más puntos sume en las tres votaciones que ocurren durante la partida.",tips:["Controlar templos altos al momento de las votaciones es crucial","No desperdicies puntos de acción llevando exploradores lejos de los templos","Descubrir un tesoro nuevo rápidamente evita que los rivales lo aprovechen"]},
+  {id:13,name:"Sequence",emoji:"🎴",players:"2–12",age:"7+",time:"30–60 min",category:"Familia",available:true,price:1000,rules:"Juego de cartas y tablero donde juegas una carta de tu mano para colocar una ficha en el espacio correspondiente del tablero. El objetivo es formar una secuencia de 5 fichas en línea, horizontal, vertical o diagonal.",tips:["Bloquea las secuencias del rival antes de completar las propias","Los comodines (jokers) son posiciones especiales que ningún jugador puede ocupar","En equipos, coordina con tu compañero sin comunicarte verbalmente"]},
+  {id:14,name:"Meadow",emoji:"🌸",players:"1–4",age:"10+",time:"60–90 min",category:"Estrategia",available:true,price:1000,rules:"Juego de naturaleza donde los jugadores recolectan cartas de plantas, animales y paisajes para construir su prado personal. Las cartas tienen requisitos de hábitat y dan puntos de victoria variados. Gana quien tenga el prado más valioso.",tips:["Lee bien los requisitos de las cartas antes de comprarlas — pueden bloquearte","Las cartas de camino especial son muy escasas y poderosas","Construir un motor eficiente de recolección desde temprano marca la diferencia"]},
+  {id:15,name:"Viral",emoji:"🦠",players:"2–5",age:"14+",time:"60–90 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores son virus que compiten por infectar y controlar el cuerpo humano. Evolucionan sus cepas, se reproducen en órganos y luchan contra el sistema inmunológico. Gana el virus que más puntos de infección acumule.",tips:["Diversifica tus infecciones entre varios órganos para maximizar puntos","Las mutaciones de movimiento y reproducción son las más importantes al inicio","El sistema inmune puede aliarse temporalmente con otro jugador para frenar al líder"]},
+  {id:16,name:"The Great Dinosaur Rush",emoji:"🦖",players:"2–5",age:"10+",time:"60 min",category:"Temático",available:true,price:1000,rules:"Los jugadores son paleontólogos compitiendo en la Era Dorada de la caza de fósiles. Excavan huesos, construyen dinosaurios (incluso robando piezas) y los exhiben en museos. Gana quien exhiba los dinosaurios más impresionantes y únicos.",tips:["Robar huesos es legal pero afecta tu reputación — úsalo con moderación","Los dinosaurios con más habilidades únicas valen más puntos","Construye dinosaurios rápidamente para asegurar los slots de exhibición primero"]},
+  {id:17,name:"Tzolkin: El Calendario Maya",emoji:"⚙️",players:"2–4",age:"13+",time:"90 min",category:"Estrategia",available:true,price:1000,rules:"Juego de colocación de trabajadores con engranajes reales que rotan cada turno. Los jugadores ofrendan a los dioses mayas, construyen edificios y avanzan en el árbol del conocimiento. Gana quien más puntos tenga al final del ciclo del calendario.",tips:["El tiempo en los engranajes es todo — planea con dos turnos de anticipación","Las ofrendas a los dioses dan multiplicadores de puntos al final","Los engranajes más profundos dan más recursos pero requieren esperar más turnos"]},
+  {id:18,name:"Fresco",emoji:"🎨",players:"2–4",age:"10+",time:"60–75 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores son pintores del Renacimiento restaurando un fresco en una catedral. Compran pigmentos en el mercado, mezclan colores y pintan secciones del mural. Gana quien más puntos por pintura y satisfacción de los obispos acumule.",tips:["Madrugar en el mercado da pigmentos más baratos pero cansa a tus pintores","Mezclar colores raros da más puntos pero es más costoso","Observa qué colores necesita el fresco en las próximas rondas para anticiparte"]},
+  {id:19,name:"Yangtze",emoji:"⛵",players:"3–5",age:"12+",time:"60–75 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores controlan dinástías que compiten por el control del río Yangtze usando líderes y barcos. Las batallas se resuelven por mayoría de piezas. Gana quien domina más regiones estratégicas al final de la partida.",tips:["Los líderes más débiles a veces sirven como señuelos para proteger a los fuertes","Controla los puntos clave del río antes que el rival se establezca","La diplomacia temporal puede ser clave para derrotar al jugador puntero"]},
+  {id:20,name:"Machi Koro",emoji:"🏙️",players:"2–4",age:"7+",time:"30–45 min",category:"Familia",available:true,price:1000,rules:"Construye tu ciudad comprando cartas de establecimientos que producen dinero según los dados. Con monedas construyes monumentos. Gana quien primero complete sus cuatro monumentos.",tips:["Las cartas de color morado roban dinero a los rivales — son agresivas pero efectivas","Diversifica tus activaciones para no depender de un solo número de dado","El centro comercial multiplica las ganancias de tiendas y restaurantes"]},
+  {id:21,name:"Saboteur: The Dark Cave",emoji:"⛏️",players:"2–8",age:"8+",time:"30 min",category:"Deducción",available:true,price:1000,rules:"Los mineros cooperan para llegar al tesoro construyendo túneles, pero los saboteadores ocultos intentan impedirlo rompiendo herramientas y bloqueando caminos. Al final de cada ronda se reparten pepitas de oro. Gana quien más oro acumule en 3 rondas.",tips:["Observa quién repara las herramientas rotas — puede ser clave para detectar saboteadores","Un minero que nunca añade túneles útiles es sospechoso","Como saboteador, actúa tarde y solo cuando ya hayas sembrado confusión"]},
+  {id:22,name:"Lost Cities",emoji:"🗺️",players:"2",age:"10+",time:"30 min",category:"Cartas",available:true,price:1000,rules:"Juego para dos donde se crean expediciones numéricas en cinco regiones. Colocas cartas en orden ascendente en tus expediciones o las descartas. Cuidado: empezar una expedición sin suficientes cartas te da puntos negativos. Gana quien más sume al final de 3 rondas.",tips:["No comiences una expedición si tienes menos de 4 cartas para ella","Descarta en colores que el rival ya tiene para robarle opciones","El apretón de manos multiplica tus puntos pero también tus pérdidas"]},
+  {id:23,name:"Ubongo",emoji:"🔷",players:"1–4",age:"8+",time:"30 min",category:"Abstracto",available:true,price:1000,rules:"Puzzle de figuras geométricas contrarreloj. Los jugadores resuelven puzzles encajando piezas en su tablero lo más rápido posible. Al terminar, reciben gemas según su posición. Gana quien acumule más gemas del mismo color.",tips:["Empieza por las piezas más grandes y trabaja hacia las pequeñas","Practica la rotación mental de piezas — con el tiempo se vuelve automático","No pierdas tiempo mirando a los demás — concéntrate en tu propio puzzle"]},
+  {id:24,name:"Time's Up!",emoji:"⏱️",players:"4–12",age:"12+",time:"30–45 min",category:"Creatividad",available:true,price:1000,rules:"Juego de equipos en tres rondas con las mismas tarjetas de personajes famosos: ronda 1 con descripción libre, ronda 2 solo una palabra, ronda 3 solo mímica. Gana el equipo con más puntos al final de las tres rondas.",tips:["Escucha bien las descripciones en ronda 1 — esas pistas reaparecerán","En ronda 2, usa la palabra más característica y memorable del personaje","La ronda 3 es la más hilarante — no te rías tanto que olvides actuar"]},
+  {id:25,name:"Stratego",emoji:"⚔️",players:"2",age:"8+",time:"30–45 min",category:"Deducción",available:true,price:1000,rules:"Juego de estrategia para dos donde las piezas tienen rango oculto. Los jugadores mueven sus piezas intentando capturar la bandera enemiga. Cada pieza tiene reglas de combate específicas, con la bomba siendo invencible excepto para el zapador.",tips:["Protege tu bandera con bombas y esconde su posición variando la distribución inicial","Los espías son la única pieza que derrota al mariscal — guárdalos bien","Engaña al rival fingiendo patrones de movimiento falsos en las primeras jugadas"]},
+  {id:26,name:"Catan Junior",emoji:"🏴‍☠️",players:"2–4",age:"5+",time:"30 min",category:"Familia",available:true,price:1000,rules:"Versión simplificada de Catan para niños pequeños. Los jugadores son piratas que construyen guaridas y barcos para recoger recursos. Gana quien primero construya todas sus guaridas piratas.",tips:["Ideal para introducir a niños pequeños a los juegos de estrategia","Explica los intercambios de recursos como 'trocar' para hacerlo más divertido","Los adultos deben participar activamente para mantener el ritmo del juego"]},
+  {id:27,name:"¡Rescate! Fire Rescue",emoji:"🚒",players:"2–6",age:"10+",time:"45 min",category:"Cooperativo",available:true,price:1000,rules:"Los jugadores son bomberos cooperando para salvar víctimas de un edificio en llamas antes de que se derrumbe. Cada bombero tiene habilidades únicas. Ganan todos si rescatan suficientes víctimas a tiempo.",tips:["Distribuye los bomberos según sus habilidades especiales al inicio","Apagar incendios cercanos a las víctimas es prioritario sobre los alejados","Comunica constantemente tus movimientos — la coordinación es todo"]},
+  {id:28,name:"Fabled Fruit",emoji:"🍎",players:"2–5",age:"8+",time:"25 min",category:"Familia",available:true,price:1000,rules:"Juego de recolección de frutas con mecánica de campaña: la partida mejora con cada juego. Los jugadores recolectan frutas para preparar jugos especiales. Gana quien primero complete el número requerido de jugos.",tips:["El juego mejora notablemente a partir de la segunda sesión con el mismo grupo","Especialízate en pocas frutas para completar jugos más rápidamente","Observa qué jugos prepara el rival para bloquear sus recursos clave"]},
+  {id:29,name:"Letter Tycoon",emoji:"✏️",players:"2–5",age:"10+",time:"30–45 min",category:"Palabras",available:true,price:1000,rules:"Forma palabras con cartas de letras en tu mano para ganar dinero y acciones. Con las ganancias puedes patentar letras, cobrando a los demás cuando las usen. Gana quien más acciones bursátiles acumule al final.",tips:["Las letras poco comunes como Q, Z o X son valiosas para patentar","Forma palabras largas cuando necesites mucho dinero de una sola vez","Bloquear letras clave que otros necesitan es una estrategia igualmente válida"]},
+  {id:30,name:"Ricochet Robots",emoji:"🤖",players:"1–∞",age:"10+",time:"30–45 min",category:"Abstracto",available:true,price:1000,rules:"Puzzle colectivo: los robots se deslizan sin detenerse hasta chocar con una pared u otro robot. Los jugadores buscan simultáneamente la ruta con menos movimientos para llevar al robot al objetivo. Quien encuentre la solución más eficiente gana el turno.",tips:["Busca primero rutas de 1 o 2 movimientos antes de explorar soluciones complejas","Los robots de otros colores son obstáculos que puedes aprovechar para frenar el tuyo","Practica visualizando mentalmente los deslizamientos antes de levantarte a demostrar"]},
+  {id:31,name:"Dominion",emoji:"👑",players:"2–4",age:"13+",time:"30 min",category:"Cartas",available:true,price:1000,rules:"Pionero de los juegos de construcción de mazos. Compras cartas de un mercado central para potenciar tu mazo y ganar provincias (puntos). Gana quien tenga más puntos cuando se agoten las pilas de provincias o tres pilas del suministro.",tips:["El dinero temprano supera a casi cualquier otra estrategia al principio","Elimina cobre de tu mazo lo antes posible con cartas de basura o capilla","Lee todas las cartas del mercado al inicio — las combinaciones hacen el juego"]},
+  {id:32,name:"Skyscrapers",emoji:"🏗️",players:"1–4",age:"8+",time:"25–40 min",category:"Abstracto",available:true,price:1000,rules:"Puzzle lógico donde se construyen rascacielos en una cuadrícula. Las pistas en los bordes indican cuántos edificios son visibles desde ese ángulo. Cada fila y columna debe tener edificios de altura 1 a N sin repetir.",tips:["Empieza resolviendo las pistas más restrictivas, como las que dicen '1' o el máximo","Los esquemas de una sola vista visible son los más fáciles de deducir al inicio","Elimina por descarte en columnas y filas que ya tengan varios números resueltos"]},
+  {id:33,name:"Fauna",emoji:"🦒",players:"2–6",age:"10+",time:"60–75 min",category:"Familia",available:true,price:1000,rules:"Quiz de naturaleza donde se adivina el peso, longitud, distribución geográfica y cola de diferentes animales. No es necesario acertar exactamente — estar cerca también da puntos. Gana quien acumule más puntos al revisar todas las cartas.",tips:["Apostar en zonas adyacentes al lugar real da puntos aunque no sea exacto","Comparte zonas con otros jugadores para no arriesgar toda tu apuesta en un solo espacio","Los animales más comunes y conocidos suelen tener datos más intuitivos"]},
+  {id:34,name:"Terra",emoji:"🌍",players:"2–6",age:"10+",time:"45–75 min",category:"Familia",available:true,price:1000,rules:"Quiz de geografía y datos del mundo donde se adivina la posición en mapas y valores numéricos. Los jugadores colocan cubos sobre el tablero para acercarse a las respuestas correctas. Puntúan los más cercanos.",tips:["La estrategia de 'zona segura' funciona bien — apuesta cerca de tu rival confiado","El tamaño de los países y su ubicación relativa son las claves geográficas más útiles","Concentra tus cubos en 1-2 preguntas por ronda en lugar de dispersarte en todas"]},
+  {id:35,name:"Photosynthesis",emoji:"🌿",players:"2–4",age:"8+",time:"30–60 min",category:"Abstracto",available:true,price:1000,rules:"Los árboles crecen bajo el sol giratorio del bosque. La luz genera semillas para plantar. Cuando un árbol maduro se tala, da puntos según el suelo. Gana quien más puntos acumule.",tips:["Los espacios centrales del bosque valen más puntos — lucha por ellos","Bloquear la luz de los rivales es tan importante como hacer crecer los propios","Los árboles grandes dan más semillas pero son caros de desarrollar"]},
+  {id:36,name:"Tzaar",emoji:"⬡",players:"2",age:"13+",time:"30 min",category:"Abstracto",available:true,price:1000,rules:"Juego abstracto de dos jugadores del sistema GIPF. Las piezas son de tres tipos: TZAAR, TZARRA y TOTT. Puedes capturar piezas enemigas o apilar las propias para hacerlas más fuertes. Pierde quien no pueda capturar o pierda todos los de un tipo.",tips:["Las torres altas son difíciles de capturar pero inmovilizan una parte de tu ejército","Perder todos los TZAAR (la pieza más valiosa) es derrota inmediata — protégelos","El equilibrio entre atacar y fortalecer tu posición es la clave estratégica"]},
+  {id:37,name:"Yinsh",emoji:"⬤",players:"2",age:"9+",time:"30–60 min",category:"Abstracto",available:true,price:1000,rules:"Juego abstracto para dos del sistema GIPF. Los aros se mueven por el tablero y voltean las fichas que cruzan en su camino. Cuando formas una fila de 5 fichas de tu color, retiras un aro. Gana quien primero retire 3 aros.",tips:["Controla el centro del tablero desde el inicio — da más opciones de movimiento","Forzar a tu rival a voltear sus propias fichas es tan valioso como mover las tuyas","Los finales de partida son muy tácticos — planifica con al menos 2 movimientos de anticipación"]},
+  {id:38,name:"Genial",emoji:"🎯",players:"2–4",age:"8+",time:"30 min",category:"Abstracto",available:true,price:1000,rules:"Juego abstracto de colocación de dominós hexagonales de colores. Al colocar una pieza se puntúa por todas las fichas del mismo color conectadas en línea. Gana quien tenga el puntaje más alto en su color más bajo.",tips:["El color más débil determina tu puntuación — nunca abandones uno completamente","Colocar en el centro da más posibilidades de puntuar varios colores a la vez","Bloquea las extensiones de línea del rival cuando amenace puntuar mucho de un color"]},
+  {id:39,name:"Space Invaders (juego de mesa)",emoji:"👾",players:"2–4",age:"8+",time:"30 min",category:"Familia",available:true,price:1000,rules:"Versión de mesa del clásico arcade. Los jugadores defienden la Tierra de oleadas de invasores alienígenas cooperando o compitiendo por puntos. Incluye mecánicas del videojuego original adaptadas al tablero.",tips:["La coordinación es clave en modo cooperativo — no desperdicies disparos en el mismo invasor","Los escudos se destruyen gradualmente — planifica cuándo dejar de depender de ellos","El OVNI especial da puntos extra si lo eliminas en el momento correcto"]},
+  {id:40,name:"BibleOpoly",emoji:"✝️",players:"2–6",age:"8+",time:"60–90 min",category:"Familia",available:true,price:1000,rules:"Versión bíblica del Monopoly donde las propiedades son lugares del Antiguo y Nuevo Testamento. Los jugadores construyen templos en lugar de hoteles y responden preguntas bíblicas. Gana quien más riqueza acumule.",tips:["Ideal para familias con contexto cristiano que quieren combinar fe y diversión","Las tarjetas de preguntas bíblicas pueden jugarse como reto adicional","Adáptalo a jugadores más jóvenes simplificando las reglas de transacción"]},
+  {id:41,name:"Tipsy",emoji:"🥴",players:"2+",age:"8+",time:"20 min",category:"Habilidad",available:true,price:1000,rules:"Juego de equilibrio donde los jugadores apilan objetos sobre una base inestable. Cada turno se añade una pieza siguiendo las reglas. Quien derrumbe la pila pierde.",tips:["Coloca las piezas más pesadas cerca del centro de gravedad","Movimientos lentos y controlados son mejores que los rápidos","Observa el ángulo de inclinación actual antes de decidir dónde colocar tu pieza"]},
+  {id:42,name:"Pirate Pirate",emoji:"🏴‍☠️",players:"2–4",age:"7+",time:"20–30 min",category:"Familia",available:true,price:1000,rules:"Juego de piratas donde los jugadores recolectan tesoros navegando por los mares. Con cartas de acción puedes robar tesoros a otros o proteger los propios. Gana quien más tesoros acumule al final.",tips:["Las cartas de protección son tan valiosas como las de ataque","Guarda tus mejores ataques para cuando el rival tenga muchos tesoros acumulados","Ideal para niños por sus reglas simples y tiempo de juego corto"]},
+  {id:43,name:"Yogarrr!",emoji:"🧘",players:"2–4",age:"6+",time:"20 min",category:"Habilidad",available:true,price:1000,rules:"Juego de equilibrio con temática pirata. Los jugadores apilan monedas de oro sobre el tablero inclinado sin derribarlas. Gana quien coloque más monedas correctamente.",tips:["La posición inicial de las monedas determina el equilibrio — empieza desde el centro","Observa cómo reacciona el tablero al peso antes de colocar piezas difíciles","Respira antes de colocar — los movimientos impulsivos derrumban la pila"]},
+  {id:44,name:"Lift It! Deluxe",emoji:"🎪",players:"2–4",age:"7+",time:"20 min",category:"Habilidad",available:true,price:1000,rules:"Los jugadores se ponen un gancho en la cabeza y deben levantar y apilar piezas sin usar las manos. Completa los desafíos de la tarjeta antes que tus rivales. Gana quien más desafíos complete.",tips:["Practica movimientos de cuello lentos y controlados antes de cronometrar","Los desafíos de apilamiento vertical son más difíciles que los horizontales","Ríete de los errores — este juego es tan divertido como frustrante al inicio"]},
+  {id:45,name:"#ArtBox",emoji:"🎨",players:"2–4",age:"10+",time:"30–45 min",category:"Creatividad",available:true,price:1000,rules:"Juego de creatividad y adivinanzas visuales donde los jugadores crean composiciones con tarjetas de arte y los demás intentan adivinar el concepto o título que el artista tenía en mente.",tips:["Las interpretaciones más abstractas a veces son las más fáciles de adivinar para tu grupo","Conocer el estilo de juego de tus compañeros te da ventaja en las adivinanzas","No busques la respuesta 'correcta' — la más cercana al pensamiento del artista gana"]},
+  {id:46,name:"Granjeros",emoji:"🌾",players:"2–5",age:"8+",time:"45–60 min",category:"Familia",available:true,price:1000,rules:"Juego de gestión de granja donde los jugadores cultivan cosechas, crían animales y venden en el mercado. Los recursos se administran para maximizar las ganancias a lo largo de las temporadas. Gana quien más monedas acumule.",tips:["Diversifica tus cultivos para no depender de un solo mercado","Las temporadas de lluvia afectan distintos cultivos — planifica la siembra con anticipación","Los animales dan recursos pasivos pero cuestan mantenerlos — calcula el retorno"]},
+  {id:47,name:"Dr. Eureka",emoji:"🔬",players:"2–4",age:"8+",time:"15–20 min",category:"Habilidad",available:true,price:1000,rules:"Los jugadores son científicos que deben reordenar bolitas de colores en tubos de ensayo para reproducir la fórmula de la tarjeta, sin tocar las bolitas con las manos. El primero en reproducirla correctamente gana la ronda.",tips:["Planea toda la secuencia de movimientos antes de empezar a mover","Las bolitas en el fondo del tubo determinan en qué tubo debes empezar","No dejes bolitas del mismo color juntas si las necesitas separadas al final"]},
+  {id:48,name:"Chomp!",emoji:"🦈",players:"2–5",age:"8+",time:"15–20 min",category:"Familia",available:true,price:1000,rules:"Juego de reacción rápida donde los jugadores deben atrapar cartas de animales acuáticos según las reglas de la cadena alimentaria. El tiburón come todo, pero el tiburón a su vez puede ser 'chompeado'. Gana quien más cartas recolecte.",tips:["La velocidad de reacción mejora con la práctica — el primer partido siempre es más lento","Mantén la mano cerca de las cartas pero sin tocarlas antes de tiempo","Recuerda la cadena: el plancton es el rey en esta versión del juego"]},
+  {id:49,name:"Cir-Kis",emoji:"🔵",players:"2",age:"8+",time:"20 min",category:"Abstracto",available:true,price:1000,rules:"Juego abstracto para dos jugadores donde se colocan piezas circulares y en forma de cuña en un tablero. El objetivo es controlar el mayor número de regiones al rodear o conectar territorios.",tips:["El control del centro del tablero da ventaja decisiva en etapas finales","Las piezas circulares son más versátiles — úsalas con flexibilidad estratégica","Anticipa los movimientos del rival con al menos dos jugadas de anticipación"]},
+  {id:50,name:"Konario",emoji:"🃏",players:"2–4",age:"8+",time:"30 min",category:"Cartas",available:true,price:1000,rules:"Juego de cartas costarricense donde los jugadores usan cartas de personajes y habilidades para acumular puntos. Ideal para aprender sobre la cultura y fauna local en un formato de juego dinámico.",tips:["Guarda las cartas de habilidad especial para los momentos decisivos","Los personajes de mayor poder suelen tener costos de juego más altos","Lee todas las cartas al inicio para planear tu estrategia desde el primer turno"]},
+  {id:51,name:"GalactiQuest",emoji:"🚀",players:"2–6",age:"10+",time:"30–45 min",category:"Temático",available:true,price:1000,rules:"Juego de exploración espacial donde los jugadores viajan por la galaxia recolectando recursos de planetas y completando misiones. Cada nave tiene habilidades únicas. Gana quien complete primero el número requerido de misiones.",tips:["Las misiones de alto riesgo dan más puntos pero requieren más recursos","Bloquear los planetas que tu rival necesita puede ser tan efectivo como avanzar","Actualiza tu nave antes de embarcarte en misiones de largo alcance"]},
+  {id:52,name:"Bombers",emoji:"💣",players:"2–4",age:"8+",time:"30–45 min",category:"Estrategia",available:true,price:1000,rules:"Juego de estrategia urbana donde los jugadores planifican ataques y defensas en un mapa de ciudad. Las bombas tienen alcance diferente según su tipo. Gana quien elimine más objetivos del rival sin perder los propios.",tips:["El conocimiento del mapa es tu mayor ventaja — estúdialo antes de colocar tus piezas","Las bombas de área son poderosas pero pueden dañar tus propios objetivos","Usa el terreno como escudo estratégico para proteger tus posiciones clave"]},
+  {id:53,name:"Tic Stac Toe",emoji:"❌",players:"2",age:"5+",time:"15 min",category:"Abstracto",available:true,price:1000,rules:"Versión 3D del clásico tres en raya. Los jugadores apilan piezas en una cuadrícula vertical para formar una línea de tres. La dimensión extra añade profundidad estratégica al juego original.",tips:["El centro de la cuadrícula sigue siendo el punto de control más importante","Las líneas diagonales en 3D son más difíciles de ver — son las más sorpresivas","Bloquear al rival debe ser siempre tu primera prioridad en cada turno"]},
+  {id:54,name:"NFL ShowDown",emoji:"🏈",players:"2–4",age:"10+",time:"30–45 min",category:"Temático",available:true,price:1000,rules:"Juego de fútbol americano donde los jugadores dirigen sus equipos con cartas de jugadas. Combinando ataque y defensa, intentan anotar touchdowns. Gana el equipo con más puntos al final del partido.",tips:["El bloqueo de la defensa es tan importante como el ataque — no lo descuides","Guarda tus mejores jugadas para la última posesión si vas perdiendo","Conocer las fortalezas de cada posición de tu equipo maximiza tus jugadas"]},
+  {id:55,name:"Tetris (juego de mesa)",emoji:"🟦",players:"1–4",age:"8+",time:"20–30 min",category:"Abstracto",available:true,price:1000,rules:"Versión de tablero del icónico videojuego. Los jugadores colocan piezas tetromino en el tablero intentando completar líneas. Las líneas completas se eliminan y dan puntos. Gana quien más líneas complete.",tips:["Piensa en forma de piezas futuras, no solo en la que estás colocando ahora","Deja un espacio para la pieza larga (I) para completar cuatro líneas a la vez","Mantener el tablero bajo es más importante que puntuar muchas líneas pequeñas"]},
+  {id:56,name:"Amazonas",emoji:"🌊",players:"2–4",age:"10+",time:"30–45 min",category:"Estrategia",available:true,price:1000,rules:"Juego de territorio donde las reinas amazonas se mueven como en el ajedrez y disparan flechas que bloquean casillas. El objetivo es dejar al rival sin movimientos posibles. Gana el último jugador con reinas que puedan moverse.",tips:["Divide el tablero temprano para aislar las reinas rivales en zonas pequeñas","Las flechas propias pueden ser obstáculos para tus rivales — úsalas estratégicamente","Las reinas cerca del centro tienen más opciones de movimiento y disparo"]},
+  {id:57,name:"Machi Koro: Bright Lights",emoji:"🌆",players:"2–5",age:"10+",time:"40–60 min",category:"Familia",available:true,price:1000,rules:"Expansión de Machi Koro ambientada en una gran ciudad. Los jugadores construyen establecimientos comerciales que se activan según los dados para ganar monedas. Primero en construir sus monumentos gana.",tips:["Diversifica tus activaciones entre números bajos y altos de dado","Las cartas de activación en turno de cualquier jugador son las más eficientes","Adapta tu estrategia según las cartas disponibles en cada partida — cambian siempre"]},
+  {id:58,name:"Deus",emoji:"⚡",players:"2–4",age:"14+",time:"60–90 min",category:"Estrategia",available:true,price:1000,rules:"Juego de civilizaciones donde los jugadores construyen colonias y templos en un mapa modular. Las cartas se juegan para construir o sacrificar en los templos de los dioses a cambio de poderes. Gana quien más puntos de victoria tenga.",tips:["Los templos son más poderosos cuanto más cartas del mismo tipo hayas sacrificado","Controla los recursos naturales del mapa desde el inicio","Las cartas militares son clave para bloquear o eliminar rivales avanzados"]},
+  {id:59,name:"Feudality",emoji:"🏰",players:"2–4",age:"12+",time:"90 min",category:"Estrategia",available:true,price:1000,rules:"Juego de construcción de reino medieval donde los jugadores administran tierras, campesinos y señores feudales. Se construyen edificios que generan recursos y ventajas. Gana quien más puntos de gloria y riqueza acumule al final.",tips:["Los edificios de producción de recursos son la base de cualquier estrategia","Los señores con mejores atributos deben asignarse a las tareas más críticas","Planifica los impuestos con cuidado — los campesinos insatisfechos producen menos"]},
+  {id:60,name:"Wonders (7 Wonders variant)",emoji:"🗿",players:"2–7",age:"10+",time:"30 min",category:"Estrategia",available:true,price:1000,rules:"Los jugadores construyen civilizaciones antiguas eligiendo cartas de estructuras, ciencia y maravillas del mundo. Con recursos construyes estructuras que dan puntos o poderes. Gana quien más puntos de victoria sume.",tips:["La ciencia se multiplica exponencialmente cuando coleccionas símbolos iguales","No ignores el poder militar — las derrotas quitan puntos al final","Lee las maravillas de todos los jugadores al inicio — influyen en tu estrategia"]},
+  {id:61,name:"Mancala",emoji:"🥚",players:"2",age:"5+",time:"15–20 min",category:"Abstracto",available:true,price:1000,rules:"Juego de siembra de semillas donde los jugadores distribuyen piedras por los hoyos del tablero. Al vaciar un hoyo, si la última piedra cae en tu almacén, juegas de nuevo. Gana quien más semillas acumule en su almacén.",tips:["Contar los movimientos para caer en el almacén y jugar de nuevo es la clave","Los hoyos del extremo de tu lado son los más valiosos para acumular","Vaciar los hoyos del rival puede ser tan efectivo como llenar el tuyo"]},
+  {id:62,name:"Tribond",emoji:"🧩",players:"2–6",age:"12+",time:"30 min",category:"Palabras",available:true,price:1000,rules:"Juego de trivia donde tres pistas tienen algo en común. Los jugadores adivinas el nexo entre las tres cosas. Gana quien más respuestas correctas dé primero.",tips:["Piensa en categorías amplias antes que en respuestas específicas","Las conexiones más inesperadas suelen ser las más memorables del juego","Si no sabes la respuesta, escucha las pistas de tus rivales — a veces ayudan"]},
+  {id:63,name:"Cronología Bíblica",emoji:"📖",players:"2–8",age:"8+",time:"20–30 min",category:"Familia",available:true,price:1000,rules:"Juego de trivia cronológica con eventos bíblicos. Los jugadores colocan eventos en su posición correcta dentro de una línea del tiempo creciente. Sin ver la fecha, cada carta se ubica antes o después de las ya colocadas.",tips:["Los eventos del Antiguo Testamento van primero — es un buen ancla inicial","Conocer las grandes narrativas bíblicas ayuda más que memorizar fechas exactas","Ideal para grupos con formación cristiana — añade conversación natural sobre los textos"]},
+  {id:64,name:"UNO Teams",emoji:"🃏",players:"4–8",age:"7+",time:"30 min",category:"Cartas",available:false,price:1000,rules:"Versión por equipos del clásico UNO. Los compañeros se sientan uno frente al otro y cooperan para que uno de los dos se quede sin cartas. Los comodines especiales del equipo añaden nuevas tácticas.",tips:["Coordina con tu compañero qué colores dejar activos para darle ventaja","Guarda el +4 para cuando el rival esté a punto de ganar","Grita UNO por tu compañero también — las reglas de equipo lo permiten"]},
+  {id:65,name:"Chess / Ajedrez",emoji:"♟️",players:"2",age:"6+",time:"30–90 min",category:"Abstracto",available:true,price:1000,rules:"El clásico juego de estrategia milenario. Dos ejércitos de 16 piezas cada uno compiten por dar jaque mate al rey rival. Cada pieza tiene movimientos únicos. Gana quien atrape al rey del oponente sin que pueda escapar.",tips:["Controla el centro del tablero desde las primeras jugadas","No muevas las mismas piezas dos veces en la apertura sin una razón táctica","Enrocar temprano protege al rey y conecta las torres"]}
 ];
 
 
@@ -395,11 +485,167 @@ function renderStatsPanel() {
 function showAdminTab(tab, btn) {
   document.querySelectorAll('.atab').forEach(t => t.classList.remove('on'));
   btn.classList.add('on');
-  document.getElementById('admin-reservas').style.display = tab === 'reservas' ? 'block' : 'none';
-  document.getElementById('admin-estadisticas').style.display = tab === 'estadisticas' ? 'block' : 'none';
+  ['reservas','recaudacion','sugerencias_admin','estadisticas'].forEach(t => {
+    const el = document.getElementById('admin-' + t);
+    if (el) el.style.display = t === tab ? 'block' : 'none';
+  });
   if (tab === 'estadisticas') renderStatsPanel();
+  if (tab === 'recaudacion') renderRecaudacion();
+  if (tab === 'sugerencias_admin') renderSugerencias();
 }
 // ── FIN ESTADÍSTICAS ──────────────────────────────────────────
+
+
+// ── PRECIO UNIFICADO ──
+const PRECIO_BASE = 1000;
+const MULTA_DIA = 500;
+
+// ── SUGERENCIAS ──
+let sugerencias = [];
+
+function loadSugerencias() {
+  try { const s = localStorage.getItem('ludoteca_sugerencias'); if(s) sugerencias = JSON.parse(s); } catch(e){}
+}
+function saveSugerencias() {
+  try { localStorage.setItem('ludoteca_sugerencias', JSON.stringify(sugerencias)); } catch(e){}
+}
+
+function submitSugerencia() {
+  const nombre = document.getElementById('sug-nombre').value.trim();
+  const razon = document.getElementById('sug-razon').value.trim();
+  const quien = document.getElementById('sug-quien').value.trim();
+  const tipo = document.getElementById('sug-tipo').value;
+  if (!nombre) { alert('Por favor escribí el nombre del juego.'); return; }
+  sugerencias.unshift({ id: Date.now(), nombre, razon, quien: quien || 'Anónimo', tipo: tipo || '', votos: 0, votado: false, fecha: new Date().toLocaleDateString('es-CR') });
+  saveSugerencias();
+  document.getElementById('sug-nombre').value = '';
+  document.getElementById('sug-razon').value = '';
+  document.getElementById('sug-quien').value = '';
+  document.getElementById('sug-tipo').value = '';
+  renderSugerencias();
+  alert('¡Gracias por tu sugerencia! Ya aparece en la lista.');
+}
+
+function votarSugerencia(id) {
+  const s = sugerencias.find(x => x.id === id);
+  if (!s || s.votado) return;
+  s.votos++;
+  s.votado = true;
+  saveSugerencias();
+  renderSugerencias();
+}
+
+function eliminarSugerencia(id) {
+  if (!confirm('¿Eliminar esta sugerencia?')) return;
+  sugerencias = sugerencias.filter(x => x.id !== id);
+  saveSugerencias();
+  renderSugerencias();
+}
+
+function renderSugerencias() {
+  const sorted = [...sugerencias].sort((a,b) => b.votos - a.votos);
+  const listPub = document.getElementById('sug-list-pub');
+  const listAdm = document.getElementById('sug-list-admin');
+  const count = document.getElementById('sug-count');
+  if (count) count.textContent = sugerencias.length ? `(${sugerencias.length})` : '';
+
+  const itemHtml = (s, isAdmin) => `
+    <div class="sug-item">
+      <div class="sug-votes">
+        <button class="vote-btn" onclick="votarSugerencia(${s.id})" ${s.votado?'disabled':''} title="${s.votado?'Ya votaste':'Votar'}">▲</button>
+        <div class="vnum">${s.votos}</div>
+        <div class="vlbl">votos</div>
+      </div>
+      <div class="sug-body">
+        <h4>${s.nombre}</h4>
+        ${s.razon ? `<p>${s.razon}</p>` : ''}
+        <div class="sug-meta">${s.quien}${s.tipo ? ' · ' + s.tipo : ''} · ${s.fecha}</div>
+      </div>
+      ${isAdmin ? `<button class="sug-delete" onclick="eliminarSugerencia(${s.id})" title="Eliminar">✕</button>` : ''}
+    </div>`;
+
+  if (listPub) {
+    if (!sorted.length) listPub.innerHTML = '<div class="empty"><p>Aún no hay sugerencias.<br>¡Sé el primero en proponer un juego!</p></div>';
+    else listPub.innerHTML = sorted.map(s => itemHtml(s, false)).join('');
+  }
+  if (listAdm) {
+    if (!sorted.length) listAdm.innerHTML = '<div class="empty"><p>No hay sugerencias todavía.</p></div>';
+    else listAdm.innerHTML = sorted.map(s => itemHtml(s, true)).join('');
+  }
+}
+
+// ── RECAUDACIÓN Y MULTAS ──
+let multas = {};
+
+function loadMultas() {
+  try { const m = localStorage.getItem('ludoteca_multas'); if(m) multas = JSON.parse(m); } catch(e){}
+}
+function saveMultas() {
+  try { localStorage.setItem('ludoteca_multas', JSON.stringify(multas)); } catch(e){}
+}
+
+function calcularRecaudacion() {
+  const aprobadas = reservations.filter(r => r.estado === 'Aprobada');
+  const depositos = aprobadas.length * PRECIO_BASE;
+  let multasCobradas = 0;
+  let multasPendientes = 0;
+  Object.values(multas).forEach(m => {
+    if (m.cobrada) multasCobradas += m.monto;
+    else multasPendientes += m.monto;
+  });
+  return { depositos, multasCobradas, multasPendientes, total: depositos + multasCobradas };
+}
+
+function renderRecaudacion() {
+  const { depositos, multasCobradas, multasPendientes, total } = calcularRecaudacion();
+  const fmt = n => '₡' + n.toLocaleString('es-CR');
+  const el = id => document.getElementById(id);
+  if (el('rec-total')) el('rec-total').textContent = fmt(total);
+  if (el('rec-depositos')) el('rec-depositos').textContent = fmt(depositos);
+  if (el('rec-multas')) el('rec-multas').textContent = fmt(multasCobradas);
+  if (el('rec-pendiente')) el('rec-pendiente').textContent = fmt(multasPendientes);
+
+  const lista = document.getElementById('multas-list');
+  if (!lista) return;
+  const aprobadas = reservations.filter(r => r.estado === 'Aprobada');
+  if (!aprobadas.length) { lista.innerHTML = '<p style="font-size:13px;color:#aaa;padding:8px 0">No hay reservas aprobadas todavía.</p>'; return; }
+  lista.innerHTML = aprobadas.map(r => {
+    const key = r.id;
+    const m = multas[key] || { dias: 0, monto: 0, cobrada: false };
+    return `<div class="multa-row">
+      <div class="rithumb" style="font-size:20px;width:40px;height:40px;background:#f0f4f0;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${r.game.emoji}</div>
+      <div class="minfo">
+        <h4>${r.game.name}</h4>
+        <p>${r.nombre} · ${r.fecha}</p>
+        ${m.dias > 0 ? `<p style="color:#7d4e00;font-weight:500">Multa: ₡${m.monto.toLocaleString('es-CR')} (${m.dias} día${m.dias!==1?'s':''})</p>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <input type="number" class="dias-input" min="0" max="30" value="${m.dias}" placeholder="0"
+          onchange="actualizarMulta(${key}, this.value)" title="Días de atraso">
+        <span style="font-size:11px;color:#aaa">días</span>
+        <button class="cobrar-btn ${m.cobrada?'cobrado':''}" onclick="cobrarMulta(${key})" ${m.cobrada?'disabled':''}>
+          ${m.cobrada ? '✓ Cobrada' : 'Cobrar'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function actualizarMulta(key, dias) {
+  const d = parseInt(dias) || 0;
+  if (!multas[key]) multas[key] = { dias: 0, monto: 0, cobrada: false };
+  multas[key].dias = d;
+  multas[key].monto = d * MULTA_DIA;
+  saveMultas();
+  renderRecaudacion();
+}
+
+function cobrarMulta(key) {
+  if (!multas[key] || multas[key].monto === 0) return;
+  multas[key].cobrada = true;
+  saveMultas();
+  renderRecaudacion();
+}
 
 let reservations = [];
 let activecat = "Todos";
@@ -413,6 +659,7 @@ function showTab(name, btn) {
   btn.classList.add('active');
   if (name === 'misreservas') renderMyRes();
   if (name === 'admin') renderAdminRes();
+  if (name === 'sugerencias') renderSugerencias();
 }
 
 function toggleDisp() {
@@ -505,21 +752,26 @@ const BGG_IDS = {
 
 const imageCache = {};
 
+// URLs de portada directas desde BGG CDN (cf.geekdo-images.com — sin restricción CORS)
+// Formato: https://cf.geekdo-images.com/{imageId}/thumb/...
+// Usamos el thumbnail medium de cada juego, obtenido de la API de BGG vía proxy CORS
+
 async function getBGGImage(gameName) {
-  if (imageCache[gameName]) return imageCache[gameName];
+  if (imageCache[gameName] !== undefined) return imageCache[gameName];
   const bggId = BGG_IDS[gameName];
-  if (!bggId) return null;
+  if (!bggId) { imageCache[gameName] = null; return null; }
   try {
-    const url = `https://boardgamegeek.com/xmlapi2/thing?id=${bggId}&type=boardgame`;
-    const resp = await fetch(url);
-    const text = await resp.text();
+    // allorigins.win actúa como proxy CORS — devuelve el XML de BGG sin bloqueo
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://boardgamegeek.com/xmlapi2/thing?id=' + bggId + '&type=boardgame')}`;
+    const resp = await fetch(proxyUrl);
+    const data = await resp.json();
     const parser = new DOMParser();
-    const doc = parser.parseFromString(text, "text/xml");
+    const doc = parser.parseFromString(data.contents, "text/xml");
     let img = doc.querySelector("image")?.textContent || "";
     if (img && !img.startsWith("http")) img = "https:" + img;
-    if (img) imageCache[gameName] = img;
+    imageCache[gameName] = img || null;
     return img || null;
-  } catch { return null; }
+  } catch { imageCache[gameName] = null; return null; }
 }
 
 async function renderGames(games) {
@@ -597,7 +849,7 @@ function openReserve(id) {
       </div>
       <div class="info-box">
         <strong>💳 Pago por SINPE Móvil</strong><br>
-        Envíe ₡${g.price.toLocaleString()} al <strong>8988-8448</strong><br>
+        Envíe ₡1.000 al <strong>8988-8448</strong><br>
         Asunto: <strong>"Ludoteca ${g.name}"</strong><br>
         Luego adjunte el comprobante aquí abajo.
       </div>
@@ -747,6 +999,8 @@ function maybeClose(e) { if (e.target === document.getElementById('overlay')) cl
 function closeModal() { document.getElementById('overlay').classList.remove('open'); }
 
 loadStats();
+loadSugerencias();
+loadMultas();
 buildCatChips();
 renderGames(GAMES);
 renderPopular();
